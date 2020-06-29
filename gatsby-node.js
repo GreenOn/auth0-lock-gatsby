@@ -26,7 +26,7 @@ exports.onCreatePage = async ({ page, actions }) => {
         module: {
           rules: [
             {
-              test: /auth0-js/,
+              test: /auth0-lock/,
               use: loaders.null(),
             },
           ],
