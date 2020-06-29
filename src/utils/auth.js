@@ -4,15 +4,10 @@ const CLIENT_DOMAIN = process.env.AUTH0_DOMAIN
 const REDIRECT_URL = process.env.AUTH0_CALLBACK
 
 const isBrowser = typeof window !== "undefined"
-let params = {};
-let domainArr
 const options = {
   passwordlessMethod: "link",              // Sets Lock to use magic link
   auth: {
     responseType: 'token id_token',
-    params: {
-      access_type: 'offline',
-    },
   },
   languageDictionary: {
       emailInputPlaceholder: "something@youremail.com",
@@ -24,11 +19,6 @@ const options = {
   theme:{
       primaryColor: '#002fa7'
   },
-  allowedConnections: params.domain ? domainArr : ['google-oauth2','email']
-}
-if (params.domain){
-  params.domain.replace("#","")
-  domainArr = params.domain.split(" ")
 }
 let lock = isBrowser ? new Auth0LockPasswordless( CLIENT_ID, CLIENT_DOMAIN, options ) : {}
 if(isBrowser) {
@@ -36,11 +26,8 @@ if(isBrowser) {
     redirect()
   });
   lock.on('authorization_error', function(err){
-    if(params.domain){
-      params.domain = null;
       lock = new Auth0Lock(CLIENT_ID, CLIENT_DOMAIN, options)
       lock.show();
-    }
   })
 }
 function redirect() {
