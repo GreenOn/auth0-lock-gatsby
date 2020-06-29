@@ -1,7 +1,4 @@
 import { Auth0Lock, Auth0LockPasswordless } from "auth0-lock"
-const CLIENT_ID = process.env.AUTH0_CLIENTID
-const CLIENT_DOMAIN = process.env.AUTH0_DOMAIN
-const REDIRECT_URL = process.env.AUTH0_CALLBACK
 
 const isBrowser = typeof window !== "undefined"
 const options = {
@@ -20,19 +17,19 @@ const options = {
       primaryColor: '#002fa7'
   },
 }
-let lock = isBrowser ? new Auth0LockPasswordless( CLIENT_ID, CLIENT_DOMAIN, options ) : {}
+let lock = isBrowser ? new Auth0LockPasswordless( `kcmqY88kyS2IYFquoscBgIIy4LRUh6me`, `dev-nseui4sk.us.auth0.com`, options ) : {}
 if(isBrowser) {
   lock.on('authenticated', function(authResult) {
     redirect()
   });
   lock.on('authorization_error', function(err){
-      lock = new Auth0Lock(CLIENT_ID, CLIENT_DOMAIN, options)
+      lock = new Auth0Lock(`kcmqY88kyS2IYFquoscBgIIy4LRUh6me`, `dev-nseui4sk.us.auth0.com`, options)
       lock.show();
   })
 }
 function redirect() {
   if(typeof document !== `undefined`){
-      document.location.href = REDIRECT_URL;
+      document.location.href = "http://localhost:8000";
   }
 }
 export const login = () => {
