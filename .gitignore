@@ -1,0 +1,7 @@
+node_modules
+.cache
+.DS_Store
+.vscode/
+public
+.env
+.env.development
