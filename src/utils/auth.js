@@ -42,6 +42,7 @@ function createSessionCookie(authResult) {
 
 function redirect() {
   if(typeof document !== `undefined`){
+      console.log("We are redirecting.")
       document.location.href = "http://localhost:8000";
   }
 }
@@ -70,12 +71,35 @@ async function setGoogleAccessTokenToCookie(idToken) {
         document.cookie = `accessToken=${googleIdentity.access_token};domain=${getDomain(window)};expires="${expirationDate}`;
   }
 }
+function getDomain(w) {
+  console.log("getting domain..")
+  const url = w.location.origin
+  if (url.includes('localhost')) return 'localhost'
+  console.log(url)
+  return  getUrl(url)
+}
+function getExpirationDate() {
+   console.log("getting expiration date..")
+  const expirationDate = new Date();
+  expirationDate.setTime(expirationDate.getTime() + 7 * 24 * 60 * 60 * 999); // expire before JWT expires in 7 days
+  console.log(expirationDate)
+  return expirationDate
+}
+function getUrl(url) {
+  const splitUrl = url.split('.')
+  const sliceUrl = splitUrl.slice(-2)
+  const joinUrl = sliceUrl.join('.')
+  const finalUrl = `.${joinUrl}`
+  console.log(finalUrl)
+  return finalUrl
+}
 
 export const login = () => {
   if (!isBrowser) {
     return 
   }
   lock.show();
+
 }
 
 
